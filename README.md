@@ -1,1 +1,1 @@
-# this is my prsonal repository where i paste important commands for devops
+# This is my personal repository where i paste important commands for devops
