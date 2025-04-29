@@ -4,7 +4,7 @@ set -e  # Exit script immediately on error
 trap 'echo "Error occurred at line $LINENO"; exit 1' ERR
 
 # ====== Default Configuration ======
-DEFAULT_INSTANCE_ID=i-016a9d374e3236a92
+DEFAULT_INSTANCE_ID="give your"
 DEFAULT_KEY_PATH=$HOME
 DEFAULT_LINUX_USER=ubuntu
 DEFAULT_REGION=ap-south-1
