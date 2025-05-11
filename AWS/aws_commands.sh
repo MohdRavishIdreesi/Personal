@@ -299,13 +299,3 @@ aws elasticbeanstalk describe-environments --query 'Environments[*].[Environment
 aws elasticbeanstalk describe-applications --query 'Applications[*].[ApplicationName, Description, DateCreated]' --output table
 
 ################################################################################################
-
-
-# aws ec2 run-instances \
-#   --image-id ami-0f58b397bc5c1f2e8 \
-#   --instance-type t2.micro \
-#   --key-name UNIX \
-#   --security-group-ids sg-031b9cd4488d2a765 \
-#   --subnet-id subnet-0800c851e77ff1521\
-#   --block-device-mappings '[{"DeviceName":"/dev/sda1","Ebs":{"VolumeSize":8,"VolumeType":"gp2"}}]' \
-#   --region ap-south-1
