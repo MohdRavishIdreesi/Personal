@@ -1,21 +1,23 @@
+++++++++++++++++++++++++++++++++++++++
+# NTP server setup
+# In MASTER And CHILD:
 sudo apt update
 sudo apt install chrony -y
 
 sudo nano /etc/chrony/chrony.conf
 sudo nano /etc/chrony/conf.d/00-cpc.conf # comment prefer line
 
-# MASTER paste as per your requirement
+# Only in MASTER paste as per your requirement
 allow 10.0.0.0/16   # Adjust this to your VPC CIDR
 local stratum 10    # Acts as a fallback time source
 
-#CHILD 
+# Only in CHILD 
 server 10.0.1.10 prefer iburst # private ip of your NTP server
 
+# In MASTER And CHILD:
 sudo systemctl restart chrony
 sudo systemctl enable chrony
-
 chronyc sources -v
-
 
 ++++++++++++++++++++++++++++++++++++++
 MASTER:
