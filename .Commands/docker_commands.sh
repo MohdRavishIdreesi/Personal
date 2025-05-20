@@ -1,3 +1,7 @@
+# To remove the permission denied error when running docker commands
+sudo usermod -aG docker $USER
+newgrp docker
+
 # create network
 docker network create --driver bridge notes-app-network
 
