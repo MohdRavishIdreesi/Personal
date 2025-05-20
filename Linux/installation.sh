@@ -237,9 +237,11 @@ ask_to_proceed() {
     [[ "$choice" =~ ^[Yy][Ee][Ss]$ ]]
 }
 
-if ask_to_proceed "install and configure Git"; then
+if ask_to_proceed "install Git"; then
     install_git
-    configure_git
+    if ask_to_proceed "configure Git"; then
+        configure_git
+    fi
     setup_ssh_key
 fi
 
