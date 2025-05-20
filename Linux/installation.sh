@@ -239,11 +239,17 @@ ask_to_proceed() {
 
 if ask_to_proceed "install Git"; then
     install_git
-    if ask_to_proceed "configure Git"; then
-        configure_git
-    fi
+fi
+
+ask_to_proceed() {
+    read -p "Do you want to configure GIT? (yes/no): " choice
+    [[ "$choice" =~ ^[Yy][Ee][Ss]$ ]]
+}
+
+if ask_to_proceed "configure Git"; then
     setup_ssh_key
 fi
+
 
 ask_to_proceed() {
     read -p "Do you want to install MYSQL? (yes/no): " choice
