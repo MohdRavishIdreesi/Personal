@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {label "EC2_CHILD"}
 
     stages {
         stage("CODE") {
