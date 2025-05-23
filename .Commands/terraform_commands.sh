@@ -1,10 +1,8 @@
-sudo apt update
+#to create a graph of the terraform resources
 sudo apt install graphviz -y
-
-terraform plan -out=tfplan
 terraform graph | dot -Tpng > graph.png
-terraform show -json tfplan | terraform graph | dot -Tpng > plan.png
 
+# to create a plan file
 terraform init
 terraform plan
 terraform apply
