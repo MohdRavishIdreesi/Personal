@@ -928,3 +928,22 @@ rm -rf PERMISSIONs/
 ####################################################################################################
 ####################################################################################################
 ####################################################################################################
+#edit source file for alias creation
+sudo vim ~/.bashrc
+alias update='sudo apt update && sudo apt upgrade -y'
+source ~/.bashrc
+
+#edit source file for history command memory increase
+sudo vim ~/.bashrc
+HISTSIZE=10000
+HISTFILESIZE=20000
+HISTTIMEFORMAT="%F %T "
+HISTCONTROL=ignoredups:erasedups
+shopt -s histappend
+PROMPT_COMMAND="history -a; history -c; history -r"
+source ~/.bashrc
+
+
+####################################################################################################
+####################################################################################################
+####################################################################################################
