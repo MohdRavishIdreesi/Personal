@@ -1,3 +1,70 @@
+=========================================
+GIT SETUP ON UBUNTU - ALL COMMANDS
+=========================================
+
+1. Install Git
+-----------------------------------------
+sudo apt update
+sudo apt install git -y
+git --version
+
+
+2. Configure Git Username and Email
+-----------------------------------------
+git config --global user.name "Your Name"
+git config --global user.email "youremail@example.com"
+git config --list
+
+
+3. Generate SSH Key
+-----------------------------------------
+ssh-keygen -t ed25519 -C "youremail@example.com"
+
+
+4. Start SSH Agent and Add Key
+-----------------------------------------
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
+
+5. Show Public Key
+-----------------------------------------
+cat ~/.ssh/id_ed25519.pub
+
+
+6. Test GitHub Connection
+-----------------------------------------
+ssh -T git@github.com
+
+
+7. Clone Repository (SSH)
+-----------------------------------------
+git clone git@github.com:username/repository.git
+
+
+8. Clone Repository (HTTPS Alternative)
+-----------------------------------------
+git clone https://github.com/username/repository.git
+
+
+9. Common Git Commands
+-----------------------------------------
+git init
+git status
+git add .
+git commit -m "first commit"
+git push
+git pull
+
+
+10. Install VS Code (Optional)
+-----------------------------------------
+sudo snap install code --classic
+
+=========================================
+END
+=========================================
+
 # ========================
 # Git Essential Commands
 # ========================
