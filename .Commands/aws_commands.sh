@@ -1,4 +1,9 @@
 ################################################################################################
+#to configure aws cli in ubuntu 
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+################################################################################################
 
 #EC2 (Instances, Volumes, etc.)
 aws ec2 describe-instances
