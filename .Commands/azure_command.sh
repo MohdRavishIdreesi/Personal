@@ -1,4 +1,10 @@
 # =======================
+# ✅ Install, login and connect to AZ portal to ubuntu 
+# =======================
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+az login
+
+# =======================
 # ✅ Aliases
 # =======================
 
