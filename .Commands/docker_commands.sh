@@ -1,3 +1,61 @@
+=========================================
+DOCKER INSTALLATION ON UBUNTU - ALL COMMANDS
+=========================================
+
+1. Update System
+-----------------------------------------
+sudo apt update
+sudo apt upgrade -y
+
+
+2. Install Docker
+-----------------------------------------
+sudo apt-get install docker.io
+
+
+3. Check Docker Version
+-----------------------------------------
+docker --version
+
+
+4. Check Docker Service Status
+-----------------------------------------
+sudo systemctl status docker
+
+
+5. Start Docker Service
+-----------------------------------------
+sudo systemctl start docker
+
+
+6. Enable Docker at Boot
+-----------------------------------------
+sudo systemctl enable docker
+
+
+7. Use Docker Without sudo
+-----------------------------------------
+sudo usermod -aG docker $USER
+newgrp docker
+
+
+8. Check Running Containers
+-----------------------------------------
+docker ps
+
+
+9. Check All Containers
+-----------------------------------------
+docker ps -a
+
+10. Check Downloaded Images
+-----------------------------------------
+docker images
+
+=========================================
+END
+=========================================
+
 # To remove the permission denied error when running docker commands
 sudo usermod -aG docker $USER
 newgrp docker
