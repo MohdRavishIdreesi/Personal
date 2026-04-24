@@ -1,3 +1,6 @@
+#install docker compose
+sudo apt install docker-compose-plugin
+
 # to valiadte the docker-compose file
 docker-compose config
 # to build and run the containers
