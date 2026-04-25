@@ -101,7 +101,7 @@ sudo usermod -aG docker $USER
 # ============================================================
 echo -e "${GREEN}========== INSTALLING DOCKER COMPOSE ==========${NC}"
 
-sudo apt install docker-compose-plugin
+sudo apt install docker-compose -y
 sleep 10
 
 # ============================================================
