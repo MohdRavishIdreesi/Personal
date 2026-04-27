@@ -1,0 +1,145 @@
+# =========================
+# Secrets / Env files
+# =========================
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.jks
+*.crt
+*.csr
+secrets.*
+vault.*
+*.tfvars
+*.tfvars.json
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+nohup.out
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Editors / IDE
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# =========================
+# Terraform
+# =========================
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+*.tfplan
+plan.out
+
+# Usually KEEP lock file:
+# !.terraform.lock.hcl
+
+# =========================
+# Ansible
+# =========================
+*.retry
+ansible.log
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+dist/
+build/
+*.egg-info/
+
+# =========================
+# Node.js / Frontend
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+coverage/
+.next/
+.nuxt/
+
+# =========================
+# Java / Maven / Gradle
+# =========================
+target/
+build/
+.gradle/
+*.class
+*.jar
+*.war
+
+# =========================
+# Go
+# =========================
+bin/
+pkg/
+
+# =========================
+# Rust
+# =========================
+target/
+
+# =========================
+# Docker
+# =========================
+docker-compose.override.yml
+
+# =========================
+# Kubernetes
+# =========================
+*.kubeconfig
+kubeconfig
+
+# =========================
+# Helm
+# =========================
+*.tgz
+
+# =========================
+# Archives / Packages
+# =========================
+*.zip
+*.tar
+*.gz
+*.rar
+
+# =========================
+# Test / Coverage
+# =========================
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# =========================
+# Temporary files
+# =========================
+tmp/
+temp/
+.cache/
