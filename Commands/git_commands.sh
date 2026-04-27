@@ -159,3 +159,5 @@ git clean -f
 
 # Remove untracked files and directories
 git clean -fd
+
+test
