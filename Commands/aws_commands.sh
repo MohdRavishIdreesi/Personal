@@ -304,3 +304,254 @@ aws elasticbeanstalk describe-environments --query 'Environments[*].[Environment
 aws elasticbeanstalk describe-applications --query 'Applications[*].[ApplicationName, Description, DateCreated]' --output table
 
 ################################################################################################
+
+
+
+# =========================
+# AWS EC2 CLI ALL-IN-ONE SINGLE LINE COMMANDS
+# =========================
+
+# CREATE KEYPAIR
+aws ec2 create-key-pair --key-name my-key --query 'KeyMaterial' --output text > my-key.pem
+
+# CREATE SECURITY GROUP
+aws ec2 create-security-group --group-name my-sg --description "My SG" --vpc-id vpc-xxxxxxxx
+
+# ADD INGRESS SSH
+aws ec2 authorize-security-group-ingress --group-name my-sg --protocol tcp --port 22 --cidr YOUR_IP/32
+
+# ADD INGRESS HTTP
+aws ec2 authorize-security-group-ingress --group-name my-sg --protocol tcp --port 80 --cidr 0.0.0.0/0
+
+# ADD INGRESS HTTPS
+aws ec2 authorize-security-group-ingress --group-name my-sg --protocol tcp --port 443 --cidr 0.0.0.0/0
+
+# ADD EGRESS ALL
+aws ec2 authorize-security-group-egress --group-id sg-xxxxxxxx --protocol -1 --cidr 0.0.0.0/0
+
+# CREATE INSTANCE
+aws ec2 run-instances --image-id ami-xxxxxxxx --count 1 --instance-type t2.micro --key-name my-key --security-groups my-sg --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=UbuntuServer}]'
+
+# CREATE VOLUME
+aws ec2 create-volume --availability-zone ap-south-1a --size 20 --volume-type gp3
+
+# MODIFY VOLUME SIZE
+aws ec2 modify-volume --volume-id vol-xxxxxxxx --size 30
+
+ssh ubuntu@server
+lsblk
+sudo apt update
+sudo apt upgrade -y
+sudo resize2fs /dev/xvda
+sudo growpart /dev/xvda 
+df -h
+
+# STOP INSTANCE
+aws ec2 stop-instances --instance-ids i-xxxxxxxx
+
+# CHANGE INSTANCE TYPE (CPU/RAM)
+aws ec2 modify-instance-attribute --instance-id i-xxxxxxxx --instance-type "{\"Value\":\"t3.large\"}"
+
+# START INSTANCE
+aws ec2 start-instances --instance-ids i-xxxxxxxx
+
+# STOP INSTANCE
+aws ec2 stop-instances --instance-ids i-xxxxxxxx
+
+# REBOOT INSTANCE
+aws ec2 reboot-instances --instance-ids i-xxxxxxxx
+
+# RENAME SECURITY GROUP TAG
+aws ec2 create-tags --resources sg-xxxxxxxx --tags Key=Name,Value=new-sg-name
+
+# DESCRIBE VOLUMES
+aws ec2 describe-volumes --query 'Volumes[*].[VolumeId,Size,State,VolumeType]' --output table
+
+# DESCRIBE SECURITY GROUPS
+aws ec2 describe-security-groups --query 'SecurityGroups[*].[GroupId,GroupName]' --output table
+
+# DESCRIBE KEYPAIRS
+aws ec2 describe-key-pairs --query 'KeyPairs[*].[KeyName,KeyPairId]' --output table
+
+# DESCRIBE INSTANCES
+aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId,State.Name,InstanceType,PublicIpAddress]' --output table
+
+# DELETE VOLUME
+aws ec2 delete-volume --volume-id vol-xxxxxxxx
+
+# REVOKE INGRESS RULE
+aws ec2 revoke-security-group-ingress --group-id sg-xxxxxxxx --protocol tcp --port 22 --cidr YOUR_IP/32
+
+# REVOKE EGRESS RULE
+aws ec2 revoke-security-group-egress --group-id sg-xxxxxxxx --protocol -1 --cidr 0.0.0.0/0
+
+# DELETE SECURITY GROUP
+aws ec2 delete-security-group --group-id sg-xxxxxxxx
+
+# DELETE KEYPAIR
+aws ec2 delete-key-pair --key-name my-key
+
+# TERMINATE INSTANCE
+aws ec2 terminate-instances --instance-ids i-xxxxxxxx
+
+
+
+# ==================================
+# EXTRA AWS EC2 CLI COMMANDS
+# ==================================
+
+# CONFIGURE AWS CLI
+aws configure
+
+# CHECK CURRENT REGION
+aws configure get region
+
+# FIND OFFICIAL UBUNTU AMI (22.04)
+aws ssm get-parameter --name /aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp2/ami-id --query "Parameter.Value" --output text
+
+# FIND OFFICIAL UBUNTU AMI (24.04)
+aws ssm get-parameter --name /aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id --query "Parameter.Value" --output text
+
+# DESCRIBE SPECIFIC IMAGE
+aws ec2 describe-images --image-ids ami-xxxxxxxx --query 'Images[*].[ImageId,Name]' --output table
+
+# CHECK DEFAULT VOLUME SIZE OF AMI
+aws ec2 describe-images --image-ids ami-xxxxxxxx --query 'Images[*].BlockDeviceMappings[*].Ebs.VolumeSize' --output table
+
+# CHECK INSTANCE STATE + PUBLIC IP + KEYNAME
+aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId,State.Name,PublicIpAddress,KeyName]' --output table
+
+# CHECK TERMINATED INSTANCES
+aws ec2 describe-instances --filters "Name=instance-state-name,Values=terminated" --query 'Reservations[*].Instances[*].[InstanceId,State.Name]' --output table
+
+# CHECK ATTACHED VOLUMES OF INSTANCE
+aws ec2 describe-instances --instance-ids i-xxxxxxxx --query 'Reservations[*].Instances[*].BlockDeviceMappings[*].[DeviceName,Ebs.VolumeId]' --output table
+
+# CHECK DELETE ON TERMINATION
+aws ec2 describe-instances --instance-ids i-xxxxxxxx --query 'Reservations[*].Instances[*].BlockDeviceMappings[*].[DeviceName,Ebs.VolumeId,Ebs.DeleteOnTermination]' --output table
+
+# KEEP ROOT VOLUME AFTER TERMINATION
+aws ec2 modify-instance-attribute --instance-id i-xxxxxxxx --block-device-mappings '[{"DeviceName":"/dev/sda1","Ebs":{"DeleteOnTermination":false}}]'
+
+# ATTACH EXISTING VOLUME
+aws ec2 attach-volume --volume-id vol-xxxxxxxx --instance-id i-xxxxxxxx --device /dev/sdf
+
+# DETACH VOLUME
+aws ec2 detach-volume --volume-id vol-xxxxxxxx
+
+# CHECK VOLUME MODIFICATION STATUS
+aws ec2 describe-volumes-modifications --volume-ids vol-xxxxxxxx
+
+# FILTER ONLY UNUSED VOLUMES
+aws ec2 describe-volumes --filters "Name=status,Values=available" --query 'Volumes[*].[VolumeId,Size,AvailabilityZone]' --output table
+
+# DESCRIBE SG RULES FULL
+aws ec2 describe-security-groups --group-ids sg-xxxxxxxx
+
+
+
+
+
+
+# ==========================================
+# TOP AWS CLI COMMANDS FOR DEVOPS ENGINEERS
+# EC2 + EBS + SG + IAM + S3 + VPC + ASG + ELB
+# ==========================================
+
+# ---------- AWS CLI ----------
+aws configure
+aws configure get region
+aws sts get-caller-identity
+
+# ---------- EC2 ----------
+aws ec2 describe-instances
+aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId,State.Name,InstanceType,PublicIpAddress]' --output table
+aws ec2 run-instances --image-id ami-xxxxxxxx --instance-type t2.micro --key-name my-key --security-groups my-sg
+aws ec2 stop-instances --instance-ids i-xxxxxxxx
+aws ec2 start-instances --instance-ids i-xxxxxxxx
+aws ec2 reboot-instances --instance-ids i-xxxxxxxx
+aws ec2 terminate-instances --instance-ids i-xxxxxxxx
+aws ec2 modify-instance-attribute --instance-id i-xxxxxxxx --instance-type "{\"Value\":\"t3.large\"}"
+aws ec2 create-tags --resources i-xxxxxxxx --tags Key=Name,Value=webserver
+
+# ---------- KEY PAIRS ----------
+aws ec2 create-key-pair --key-name my-key
+aws ec2 describe-key-pairs
+aws ec2 delete-key-pair --key-name my-key
+
+# ---------- SECURITY GROUP ----------
+aws ec2 create-security-group --group-name my-sg --description "My SG" --vpc-id vpc-xxxxxxxx
+aws ec2 describe-security-groups
+aws ec2 authorize-security-group-ingress --group-id sg-xxxxxxxx --protocol tcp --port 22 --cidr YOUR_IP/32
+aws ec2 authorize-security-group-ingress --group-id sg-xxxxxxxx --protocol tcp --port 80 --cidr 0.0.0.0/0
+aws ec2 authorize-security-group-ingress --group-id sg-xxxxxxxx --protocol tcp --port 443 --cidr 0.0.0.0/0
+aws ec2 authorize-security-group-egress --group-id sg-xxxxxxxx --protocol -1 --cidr 0.0.0.0/0
+aws ec2 revoke-security-group-ingress --group-id sg-xxxxxxxx --protocol tcp --port 22 --cidr YOUR_IP/32
+aws ec2 revoke-security-group-egress --group-id sg-xxxxxxxx --protocol -1 --cidr 0.0.0.0/0
+aws ec2 delete-security-group --group-id sg-xxxxxxxx
+
+# ---------- EBS VOLUMES ----------
+aws ec2 create-volume --availability-zone ap-south-1a --size 20 --volume-type gp3
+aws ec2 describe-volumes
+aws ec2 attach-volume --volume-id vol-xxxxxxxx --instance-id i-xxxxxxxx --device /dev/sdf
+aws ec2 detach-volume --volume-id vol-xxxxxxxx
+aws ec2 modify-volume --volume-id vol-xxxxxxxx --size 30
+aws ec2 describe-volumes-modifications --volume-ids vol-xxxxxxxx
+aws ec2 delete-volume --volume-id vol-xxxxxxxx
+aws ec2 create-snapshot --volume-id vol-xxxxxxxx --description "backup"
+aws ec2 describe-snapshots --owner-ids self
+
+# ---------- AMI ----------
+aws ec2 describe-images --owners self
+aws ec2 create-image --instance-id i-xxxxxxxx --name my-ami --no-reboot
+aws ec2 deregister-image --image-id ami-xxxxxxxx
+
+# ---------- VPC ----------
+aws ec2 describe-vpcs
+aws ec2 create-vpc --cidr-block 10.0.0.0/16
+aws ec2 describe-subnets
+aws ec2 create-subnet --vpc-id vpc-xxxxxxxx --cidr-block 10.0.1.0/24 --availability-zone ap-south-1a
+aws ec2 describe-route-tables
+aws ec2 create-internet-gateway
+aws ec2 attach-internet-gateway --internet-gateway-id igw-xxxxxxxx --vpc-id vpc-xxxxxxxx
+
+# ---------- ELASTIC IP ----------
+aws ec2 allocate-address --domain vpc
+aws ec2 associate-address --instance-id i-xxxxxxxx --allocation-id eipalloc-xxxxxxxx
+aws ec2 release-address --allocation-id eipalloc-xxxxxxxx
+
+# ---------- LOAD BALANCER ----------
+aws elbv2 describe-load-balancers
+aws elbv2 describe-target-groups
+aws elbv2 register-targets --target-group-arn arn:aws:... --targets Id=i-xxxxxxxx
+aws elbv2 deregister-targets --target-group-arn arn:aws:... --targets Id=i-xxxxxxxx
+
+# ---------- AUTO SCALING ----------
+aws autoscaling describe-auto-scaling-groups
+aws autoscaling set-desired-capacity --auto-scaling-group-name my-asg --desired-capacity 2
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name my-asg --min-size 1 --max-size 3
+
+# ---------- IAM ----------
+aws iam list-users
+aws iam create-user --user-name devops-user
+aws iam create-access-key --user-name devops-user
+aws iam list-roles
+aws iam list-policies
+
+# ---------- S3 ----------
+aws s3 ls
+aws s3 mb s3://my-bucket-name
+aws s3 cp file.txt s3://my-bucket-name/
+aws s3 sync ./data s3://my-bucket-name/
+aws s3 rb s3://my-bucket-name --force
+
+# ---------- CLOUDWATCH ----------
+aws cloudwatch list-metrics
+aws cloudwatch get-metric-statistics --namespace AWS/EC2 --metric-name CPUUtilization --dimensions Name=InstanceId,Value=i-xxxxxxxx --start-time 2026-04-28T00:00:00Z --end-time 2026-04-29T00:00:00Z --period 300 --statistics Average
+
+# ---------- SYSTEM MANAGER ----------
+aws ssm describe-instance-information
+aws ssm start-session --target i-xxxxxxxx
+
+# ---------- UBUNTU AMI QUICK FIND ----------
+aws ssm get-parameter --name /aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp2/ami-id --query "Parameter.Value" --output text
